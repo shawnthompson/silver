@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Visual contrast white paper</title>
+	</head>
+	<body>
+		<h1>Visual contrast white paper</h1>
+		<p>Much of classical design theory for print is built around readability, and can provide a solid foundation for good interactive design. Nevertheless, design for displays and devices present unique challenges in terms of perceived contrast and readability.</p>
+		<p>In physical printing where there is often only a single color ink for text, even in 4 color printing, design contrast is modulated by adjusting the font weight &amp; size. With CSS, any color can be selected in addition to font weight &amp; size, but this greater flexibility carries with it the need to mindful of end user perceptions. </p>
+		<p>For instance, using a thin light-weight font combined with a low contrast color choice can make text literally unreadable. A suggested best practice is to either modulate contrast by maintaining relative weight and adjusting font colors, or maintaining font colors and adjusting weight—but not both.</p>
+		<p>Classical color theory does not always apply directly to backlit or otherwise illuminated displays. Nevertheless the old adage "make it right in black and white" is still good practice, as it is most important for readability to have good luminance contrast (i.e. light vs dark). Luminance contrast is perceived three times more than hue contrast. Good design will not rely on a change in hue &amp; saturation (color contrast).</p>
+		<section>
+			<h3>Color Examples</h3>
+			<div class="testBox" style="padding: 0.65em; color: #00A; background: #000;">
+				<p>#00F <span style="color: #00F;">This is maximum blue on black. Hard to read. ☆ ★ ◯ ♥ ☎ </span></p>
+				<p>#07F <span style="color: #07F;">Add some green for a readable blue. ☆ ★ ◯ ♥ ☎ </span></p>
+				<p>#F00 <span style="color: #F00;">This is pure red on black, a minimum contrast. ☆ ★ ◯ ♥ ☎ </span></p>
+				<p>#090 <span style="color: #090;">This is green on black at a minimum contrast. ☆ ★ ◯ ♥ ☎ </span></p>
+				<p>#D0F <span style="color: #D0F;">This is purple; red and blue with no green. ☆ ★ ◯ ♥ ☎ </span></p>
+				<p>#0F0 <span style="color: #0F0;">This is maximum green, no blue. ☆ ★ ◯ ♥ ☎ ;</span></p>
+				<p>#FF0 <span style="color: #FF0;">This is maximum yellow, no blue. ☆ ★ ◯ ♥ ☎ </span></p>
+			</div>
+			<div class="testBox" style="padding: 0.65em; color: #00A; background: #EEA">
+				<p>#00A This is medium blue on a #EEA beige with equal blue (this removes all detail in the blue channel for reduced glare). ☆ ★ ◯ ♥ ☎</p>
+			</div>
+			<div class="testBox" style="padding: 0.65em; color: #00F; background: #EE0">
+				<p>#00F This is maximum blue on a #EE0 yellow. Do you notice the glare or shimmer compared to the above example? ☆ ★ ◯ ♥ ☎</p>
+			</div>
+		</section>
+		<section>
+			<h2>Understanding Contrast Perception</h2>
+			<p>As used on this page, Visual Contrast means the perceived difference between two colors displayed on a computer monitor, such as the color of the text against the color of the background. Our perception of contrast is a function of the Human Visual System (HVS) which includes the eye, optic nerve, and several areas of the brain that are either dedicated to processing vision, or that share vision processing with other senses such as hearing.</p>
+			<p>The eye consists of an optical portion including a lens, and a light sensitive portion known as the retina. Muscles in the eye adjust the shape of the lens to adjust the focus of incoming light, so that an image of the world around us is focused onto the retina. Light sensitive cells on the retina then convert light into electrical impulses that are sent to the brain's vision processing center, called the visual cortex.</p>
+			<p>This complex system is subject to many forms of of impairment. And even "normal" vision changes substantially over a person's lifetime. For instance contrast sensitivity is very poor at birth, and it takes 20 years of development for normal vision to reach peak contrast sensitivity. Many people over the age of 45 develop the need for reading glasses as the natural lens in their eye grows larger and stiffer to where the muscles can no longer pull it into focus. And while people often think of acuity as a defining factor (i.e. 20/20, the ability to focus), vision is often more impacted by contrast sensitivity related impairments. </p>
+			<p>Our perception of contrast and ultimately the readability of text is affected by many interdependant factors, including: </p>
+			<ul>
+				<li>The user's personal vision quality in terms of sharpness, glare, and contrast sensitivity </li>
+				<li>Font weight or stroke width, and font size </li>
+				<li>The lightness or darkness difference between the background and the text </li>
+				<li>The overall lightness or darkness of the screen and the light in the room as this affects the eye's light or dark adaptation to the environment </li>
+				<li>The padding and spacing around the text which affects the eye's <em>local</em> adaptation to the text area </li>
+				<li>The hue or color difference between the background and text, not including the lightness difference mentioned above </li>
+			</ul>
+			<p>All of these interdependant factors affect the perception of contrast and ultimately readability. As we are concerned with readability on computer screens, we can made some assumptions about a range of brightness, and a typical viewing environment. This provides a baseline standard for all users for best readability of content, or a minimum level of legibility for non-content. Then, we can set how different impairments require different adjustments or user customization to accomodate the neads of each individual user.</p>
+			<p>For instance, a user with poor "acuity", that is, poor sharpness where they cannot focus on small text, will need to be able to zoom the text larger. A user with poor contrast sensitivity may have good sharpness, but unable to perceive colors that are too similar in lightness. Yet another user with a glare problem may need lower contrast, and/or a reduction in blue, to reduce glare or halos interfereing with readability. Those with a color vision problem (sometimes called 'color blind') may have difficulty detecting contrast or lightness for certain colors, such as deep red. </p>
+		</section>
+		<section>
+			<h3>Predicted Contrast</h3>
+			<p>Predicted contrast is reported as a percentage using the methods in this guideline, based on the CSS color values in sRGB colorspace, and with device default antialiasing<sup>1</sup>. The <b>Tests</b> section has a lookup table for specific font and contrast combinations, but as a general guide:</p>
+			<ul>
+				<li>25% is the point of invisibility (<em>i.e., no perceptable contrast</em>) for many people with contrast related impairments. Designers should assume that contrsts lower than this may be invisible to some users. </li>
+				<li>40% for Large, Bold Headlines where the major stroke width is at least 8px (6pt), or Non-text elements that are at least a solid 8x8px square such as buttons. </li>
+				<li>60% For Bold Text no less than 16px (12pt) or non-text elements no less than 3px in the thinnest dimension. </li>
+				<li>80% Normal Weight Text no less than 16px (12pt) or non-text with a minimum stroke of 2px. </li>
+				<li>100% 300 Weight Text no less than 16px (12pt) or non-text with a minimum stroke of 1px. </li>
+			</ul>
+			<p style="font-size: smaller;">Note: <sup>1</sup>These values require that antialiasing be at the device or user agent default, such that <em>added</em> antialiasing such as "Webkit-Font-Smoothing: Antialias;" is not enabled.</p>
+		</section>
+		<section>
+			<h2>Alternate Meanings</h2>
+			<p>It's useful to point out that the term “Visual Contrast” can also be used to describe the differences of other visual perceptions: Contrast of size difference, contrast of position, contrast of speed or motion, etc. but these are not covered in this guideline at this time.</p>
+		</section>
+		<section>
+			<h3>APCA Math</h3>
+			<p> APCA is the <b>A</b>dvanced <b>P</b>erceptual <b>C</b>ontrast <b>A</b>lgorithm. The math assumes the use of the web standard sRGB colorspace.</p>
+		</section>
+		<section>
+			<h3>The simplified steps are:</h3>
+			<ul>
+				<li>Convert the sRGB background and text colors to luminance Ybg and Ytxt <ul>
+						<li>Convert from 8 bit integer to decimal 0.0-1.0 </li>
+						<li>Linearize (remove gamma) </li>
+						<li>
+							<p>Apply sRGB coefficients and sum to Y</p>
+						</li>
+					</ul></li>
+				<li>Determine which is brighter for contrast polarity </li>
+				<li>Apply pre-process modules (clamp, <em>FUTURE: color, spatial, adaptation</em>) </li>
+				<li>Apply power curve exponents for perceptual lightness </li>
+				<li>Find difference and scale to output percentage </li>
+			</ul>
+		</section>
+		<section>
+			<h2>Basic APCA Math Pseudocode</h2>
+			<p>In the sRGB colorspace, using CSS color values as integers, with a background color sRGB<sub>bg</sub> and a text color sRGB<sub>txt</sub> convert each channel to decimal 0.0-1.0 by dividing by 255, then linearize the gamma encoded RGB channels by applying a simple exponent. </p>
+			<pre xml:space="preserve"><strong>R<sub>linbg</sub></strong> = (sR<sub>bg</sub>/255.0) ^ 2.218
+	<strong>G<sub>linbg</sub></strong> = (sG<sub>bg</sub>/255.0) ^ 2.218
+	<strong>B<sub>linbg</sub></strong> = (sB<sub>bg</sub>/255.0) ^ 2.218</pre>
+			<pre xml:space="preserve"><strong>R<sub>lintxt</sub></strong> = (sR<sub>txt</sub>/255.0) ^ 2.218
+	<strong>G<sub>lintxt</sub></strong> = (sG<sub>txt</sub>/255.0) ^ 2.218
+	<strong>B<sub>lintxt</sub></strong> = (sB<sub>txt</sub>/255.0) ^ 2.218</pre>
+			<p>Then find the relative luminance (<var>Y</var>) of each color by applying the sRGB/Rec709 spectral coefficients and summing together.</p>
+			<pre xml:space="preserve"><strong>Y<sub>bg</sub></strong> = 0.2126 * R<sub>linbg</sub> + 0.7156 * G<sub>linbg</sub> + 0.0722 * B<sub>linbg</sub><strong>Y<sub>txt</sub></strong> = 0.2126 * R<sub>lintxt</sub> + 0.7156 * G<sub>lintxt</sub> + 0.0722 * B<sub>lintxt</sub></pre>
+			<section>
+				<h2>Predicted Contrast</h2>
+				<p>The Predicted Visual Contrast (<var>APCA</var>) between a foreground color and a background color is expressed as a percentange and is calculated by:</p>
+				<pre xml:space="preserve">//  Define Constants for Basic APCA Version:
+
+normBGExp = 0.38;	// Constants for Power Curve Exponents.
+normTXTExp = 0.43;	// One pair for normal text, and one for REVERSE
+revBGExp = 0.5;		// FUTURE: These will eventually be dynamic
+revTXTExp = 0.43;	// as a function of light adaptation and context
+
+blkThrs = 0.02;		// Level that triggers the soft black clamp
+blkClmp = 1.75;		// Exponent for the soft black clamp curve
+
+//  Calculate Predicted Contrast and return a string for the result
+
+if Y<sub>bg</sub> > Y<sub>txt</sub> then {
+    Y<sub>txt</sub> = (Y<sub>txt</sub> > blkThrs) ? Y<sub>txt</sub> : Y<sub>txt</sub> + abs(Y<sub>txt</sub> - blkThrs) ^ blkClmp;
+    APCA = ( Y<sub>bg</sub> ^ normBGExp - Y<sub>txt</sub> ^ normTXTExp ) * 161.8;
+    return (APCA &lt; 15 ) ? "0%" : str(APCA) + "%";
+  } else {
+    Y<sub>bg</sub>g = (Y<sub>bg</sub> > blkThrs) ? Y<sub>bg</sub> : Y<sub>bg</sub> + abs(Y<sub>bg</sub> - blkThrs) ^ blkClmp;
+    APCA = ( Y<sub>bg</sub> ^ revBGExp - Y<sub>txt</sub> ^ revTXTExp ) * 161.8;
+    return (APCA > -15 ) ? "0%" : str(APCA) + "%";
+}  
+    </pre>
+				<div class="note">
+					<p>Predicted contrast less than 15% is clamped to zero to simplify the math. </p>
+					<p><em>We will use the simple exponent, and not the piecewise sRGB transfer curve, as we are emulating display gamma and not performing image processing.</em></p>
+					<p>The “^” character is the exponentiation operator.</p>
+				</div>
+			</section>
+		</section>
+		<section>
+			<h2>Glossary</h2>
+			<dl>
+				<dt>Light</dt>
+				<dd>visible light is energy in a narrow range of frequencies or wavelengths that can be detected or sensed by “photo sensitive cells” in the back of the eye. </dd>
+				<dt>Color</dt>
+				<dd>color is not real, but a perception or interpretation by visual processing in the brain (in the brain’s visual cortex) of stimulus from photosensitive cells in the eye. </dd>
+				<dt>Hue</dt>
+				<dd>refers to a particular color sensation, i.e. red, green, yellow, blue, etc. Hue does not exist in reality, it is solely the perception of the visual system responding to light of different frequencies. </dd>
+				<dt>Saturation</dt>
+				<dd>the color intensity or purity, reduced by: <ul>
+						<li><strong>tint</strong> (add white), </li>
+						<li><strong>shade</strong> (add black), </li>
+						<li><strong>tone</strong> (add grey), </li>
+					</ul>
+				</dd>
+				<dt>Brightness</dt>
+				<dd>a relative perception, see also perceptual lightness. </dd>
+				<dt>Luminance (Y or L)</dt>
+				<dd>a physical measure of visible light intensity. Luminance is mathematically linear as light is in the real world. </dd>
+				<dt>Perceived Lightness (L*)</dt>
+				<dd>the perception of physical light intensity. Perceptual lightness is mathematically nonlinear in regards to light in the real world, however, some perceptual models attempt to provide a mathematically linear version of perception which then presents light as non-linear. The symbol L* refers to CIE L*a*b*, and should not be confused with luminance L. </dd>
+				<dt>Luma (<em>Y´</em> prime)</dt>
+				<dd> is a gamma encoded, weighted signal used in some video encodings. It is not to be confused with linear luminance. </dd>
+				<dt>Gamma</dt>
+				<dd> or transfer curve (TRC) is a curve that is commonly applied to image data for storage or broadcast to reduce perceived noise and improve data utilization. </dd>
+				<dt>Contrast</dt>
+				<dd>is a perception of the difference between two objects/elements. There are many forms of contrast, and the different types of contrast interact with and are affected by each other as well as being affected by other aspects of vision. <ul>
+						<li><strong>Lightness contrast:</strong> the difference in lightness and darkness between two items. This is a particularly important form of contrast for information such as text. </li>
+						<li><strong>Spatial contrast:</strong> in other words contrasts of size. Size contrasts directly affect the perception of lightness contrasts. </li>
+						<li><strong>Hue contrast:</strong> the perception of different light frequencies. Hue contrasts are three times weaker than lightness contrasts, and some people have problems perceiving some hues, so hue should never be a primary design contrast. </li>
+						<li><strong>Positional contrasts:</strong> the distance and/or orientation between objects is important in object recognition and identification. </li>
+						<li><strong>Temporal contrasts:</strong> contrasts of time, speed, and change. </li>
+					</ul></dd>
+				<dt>Visual Acuity</dt>
+				<dd>acuity refers to the ability of the eye’s optics to focus light onto the photoreceptors on the back of the eye. Poor acuity is usually understood as blurry vision or an inability to focus. </dd>
+
+				<dt>Spatial Frequency</dt>
+				<dd>in a practical sense, this refers to the weight of a font, or the stroke width. A thinner font or narrower stroke width is a higher spatial frequency than a bolder or thicker stroke. Higher spatial frequencies require more luminance contrast to be visible than lower frequencies, such as a very bold large headline. </dd>
+			</dl>
+		</section>
+		<section>
+			<h2>Example Code for a Test Tool</h2>
+			<pre xml:space="preserve"><code>
+////////////////////////////////////////////////////////////////////////////////
+/////	Functions to parse color values and determine SAPC contrast
+/////	REQUIREMENTS: ECMAScript 6 - ECMAScript 2015
+/////	SAPC tool version 0.97 by Andrew Somers
+/////	https://www.myndex.com/WEB/Perception
+/////	Color value input parsing based substantially on rgbcolor.js by
+/////	Stoyan Stefanov &lt;sstoo@gmail.com>
+/////	His site: http://www.phpied.com/rgb-color-parser-in-javascript/
+/////	MIT license
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+/////
+/////	*****  SAPC BLOCK  *****
+/////
+/////	For Evaluations, this is referred to as: SAPC-7
+/////	sRGB Advanced Perceptual Contrast v0.97 beta JAVASCRIPT
+/////	Copyright Â© 2019 by Andrew Somers
+/////	Licensed to the W3C Per Collaborator Agreement
+/////	SIMPLE VERSION â€” This Version Is Stripped Of Extensions:
+/////		* No Color Vision Module
+/////		* No Spatial Frequency Module
+/////		* No Light Adaptation Module
+/////		* No Dynamics Module
+/////		* No Alpha Module
+/////
+////////////////////////////////////////////////////////////////////////////////
+
+
+///// CONSTANTS USED IN THIS VERSION ///////////////////////////////////////////
+
+	const sRGBtrc = 2.218;	// Gamma for sRGB linearization. 2.223 could be used instead
+							// 2.218 sets unity with the piecewise sRGB at #777
+
+	const Rco = 0.2126;		// sRGB Red Coefficient
+	const Gco = 0.7156;		// sRGB Green Coefficient
+	const Bco = 0.0722;		// sRGB Blue Coefficient
+
+	const scaleBoW = 161.8;	// Scaling for dark text on light (phi * 100)
+	const scaleWoB = 161.8;	// Scaling for light text on dark â€” same as BoW, but
+							// this is separate for possible future use.
+
+	const normBGExp = 0.38;		// Constants for Power Curve Exponents.
+	const normTXTExp = 0.43;	// One pair for normal text,and one for REVERSE
+	const revBGExp = 0.5;		// FUTURE: These will eventually be dynamic
+	const revTXTExp = 0.43;		// as a function of light adaptation and context
+
+	const blkThrs = 0.02;	// Level that triggers the soft black clamp
+	const blkClmp = 1.75;	// Exponent for the soft black clamp curve
+
+///// Ultra Simple Basic Bare Bones SAPC Function //////////////////////////////
+
+	// This REQUIRES linearized R,G,B values of 0.0-1.0
+
+function SAPCbasic(Rbg,Gbg,Bbg,Rtxt,Gtxt,Btxt) {
+
+	var	SAPC = 0.0;
+
+	// Find Y by applying coefficients and sum.
+	// This REQUIRES linearized R,G,B 0.0-1.0
+	
+	var	Ybg = Rbg*Rco + Gbg*Gco + Bbg*Bco;
+	var	Ytxt = Rtxt*Rco + Gtxt*Gco + Btxt*Bco;
+
+		/////	INSERT COLOR MODULE HERE	/////
+
+	// Now, determine polarity, soft clamp black, and calculate contrast
+	// Finally scale for easy to remember percentages
+	// Note that reverse (white text on black) intentionally
+	// returns a negative number
+
+	if ( Ybg > Ytxt ) {	///// For normal polarity, black text on white
+
+			// soft clamp darkest color if near black.
+		Ytxt = (Ytxt > blkThrs) ? Ytxt : Ytxt + Math.abs(Ytxt - blkThrs) ** blkClmp;
+		SAPC = ( Ybg ** normBGExp - Ytxt ** normTXTExp ) * scaleBoW;
+		
+		return (SAPC &lt; 15 ) ? "0%" : SAPC.toPrecision(3) + "%";
+		
+	} else {			///// For reverse polarity, white text on black
+
+		Ybg = (Ybg > blkThrs) ? Ybg : Ybg + Math.abs(Ybg - blkThrs) ** blkClmp;
+		SAPC = ( Ybg ** revBGExp - Ytxt ** revTXTExp ) * scaleWoB;
+
+		return (SAPC > -15 ) ? "0%" : SAPC.toPrecision(3) + "%";
+	}
+
+	// If SAPC's more than 15%, return that value, otherwise clamp to zero
+	// this is to remove noise and unusual behavior if the user inputs
+	// colors too close to each other.
+	// This will be more important with future modules. Nevertheless
+	// In order to simplify code, SAPC will not report accurate contrasts
+	// of less than approximately 15%, so those are clamped. 
+	// 25% is the "point of invisibility" for many people.
+
+}
+
+//////////////////////////////////////////////////////////////
+///// END OF SAPC BLOCK             //////////////////////////
+//////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////////
+///// sRGB INPUT FORM BLOCK         //////////////////////////
+//////////////////////////////////////////////////////////////
+
+
+function RGBColor(color_string) {
+	
+	this.ok = false;
+
+	// strip any leading #
+	if (color_string.charAt(0) == '#') {	// remove # if any
+		color_string = color_string.substr(1,6);
+	}
+	color_string = color_string.replace(/ /g,'');	// strip spaces
+	color_string = color_string.toLowerCase();		// set lowercase
+
+	// before getting into regexps, try simple matches
+	// and overwrite the input
+
+	var simple_colors = {
+		aliceblue: 'f0f8ff',
+		antiquewhite: 'faebd7',
+		aqua: '00ffff',
+		aquamarine: '7fffd4',
+		azure: 'f0ffff',
+		beige: 'f5f5dc',
+		bisque: 'ffe4c4',
+		black: '000000',
+		blanchedalmond: 'ffebcd',
+		blue: '0000ff',
+		blueviolet: '8a2be2',
+		brown: 'a52a2a',
+		burlywood: 'deb887',
+		cadetblue: '5f9ea0',
+		chartreuse: '7fff00',
+		chocolate: 'd2691e',
+		coral: 'ff7f50',
+		cornflowerblue: '6495ed',
+		cornsilk: 'fff8dc',
+		crimson: 'dc143c',
+		cyan: '00ffff',
+		darkblue: '00008b',
+		darkcyan: '008b8b',
+		darkgoldenrod: 'b8860b',
+		darkgray: 'a9a9a9',
+		darkgreen: '006400',
+		darkkhaki: 'bdb76b',
+		darkmagenta: '8b008b',
+		darkolivegreen: '556b2f',
+		darkorange: 'ff8c00',
+		darkorchid: '9932cc',
+		darkred: '8b0000',
+		darksalmon: 'e9967a',
+		darkseagreen: '8fbc8f',
+		darkslateblue: '483d8b',
+		darkslategray: '2f4f4f',
+		darkturquoise: '00ced1',
+		darkviolet: '9400d3',
+		deeppink: 'ff1493',
+		deepskyblue: '00bfff',
+		dimgray: '696969',
+		dodgerblue: '1e90ff',
+		feldspar: 'd19275',
+		firebrick: 'b22222',
+		floralwhite: 'fffaf0',
+		forestgreen: '228b22',
+		fuchsia: 'ff00ff',
+		gainsboro: 'dcdcdc',
+		ghostwhite: 'f8f8ff',
+		gold: 'ffd700',
+		goldenrod: 'daa520',
+		gray: '808080',
+		green: '008000',
+		greenyellow: 'adff2f',
+		honeydew: 'f0fff0',
+		hotpink: 'ff69b4',
+		indianred : 'cd5c5c',
+		indigo : '4b0082',
+		ivory: 'fffff0',
+		khaki: 'f0e68c',
+		lavender: 'e6e6fa',
+		lavenderblush: 'fff0f5',
+		lawngreen: '7cfc00',
+		lemonchiffon: 'fffacd',
+		lightblue: 'add8e6',
+		lightcoral: 'f08080',
+		lightcyan: 'e0ffff',
+		lightgoldenrodyellow: 'fafad2',
+		lightgrey: 'd3d3d3',
+		lightgreen: '90ee90',
+		lightpink: 'ffb6c1',
+		lightsalmon: 'ffa07a',
+		lightseagreen: '20b2aa',
+		lightskyblue: '87cefa',
+		lightslateblue: '8470ff',
+		lightslategray: '778899',
+		lightsteelblue: 'b0c4de',
+		lightyellow: 'ffffe0',
+		lime: '00ff00',
+		limegreen: '32cd32',
+		linen: 'faf0e6',
+		magenta: 'ff00ff',
+		maroon: '800000',
+		mediumaquamarine: '66cdaa',
+		mediumblue: '0000cd',
+		mediumorchid: 'ba55d3',
+		mediumpurple: '9370d8',
+		mediumseagreen: '3cb371',
+		mediumslateblue: '7b68ee',
+		mediumspringgreen: '00fa9a',
+		mediumturquoise: '48d1cc',
+		mediumvioletred: 'c71585',
+		midnightblue: '191970',
+		mintcream: 'f5fffa',
+		mistyrose: 'ffe4e1',
+		moccasin: 'ffe4b5',
+		navajowhite: 'ffdead',
+		navy: '000080',
+		oldlace: 'fdf5e6',
+		olive: '808000',
+		olivedrab: '6b8e23',
+		orange: 'ffa500',
+		orangered: 'ff4500',
+		orchid: 'da70d6',
+		palegoldenrod: 'eee8aa',
+		palegreen: '98fb98',
+		paleturquoise: 'afeeee',
+		palevioletred: 'd87093',
+		papayawhip: 'ffefd5',
+		peachpuff: 'ffdab9',
+		peru: 'cd853f',
+		pink: 'ffc0cb',
+		plum: 'dda0dd',
+		powderblue: 'b0e0e6',
+		purple: '800080',
+		red: 'ff0000',
+		rosybrown: 'bc8f8f',
+		royalblue: '4169e1',
+		saddlebrown: '8b4513',
+		salmon: 'fa8072',
+		sandybrown: 'f4a460',
+		seagreen: '2e8b57',
+		seashell: 'fff5ee',
+		sienna: 'a0522d',
+		silver: 'c0c0c0',
+		skyblue: '87ceeb',
+		slateblue: '6a5acd',
+		slategray: '708090',
+		snow: 'fffafa',
+		springgreen: '00ff7f',
+		steelblue: '4682b4',
+		tan: 'd2b48c',
+		teal: '008080',
+		thistle: 'd8bfd8',
+		tomato: 'ff6347',
+		turquoise: '40e0d0',
+		violet: 'ee82ee',
+		violetred: 'd02090',
+		wheat: 'f5deb3',
+		white: 'ffffff',
+		whitesmoke: 'f5f5f5',
+		yellow: 'ffff00',
+		yellowgreen: '9acd32'
+	};
+
+	for (var key in simple_colors) {
+		if (color_string == key) {
+			color_string = simple_colors[key];
+		}
+	}
+	// end of simple type-in colors
+
+
+
+	// array of color definition objects
+	var color_defs = [
+		{
+			re: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
+			example: ['rgb(123, 234, 45)', 'rgb(255,234,245)'],
+			process: function (bits){
+				return [
+					parseInt(bits[1]),
+					parseInt(bits[2]),
+					parseInt(bits[3])
+				];
+			}
+		},
+		{
+			re: /^(\w{2})(\w{2})(\w{2})$/,
+			example: ['#00ff00', '336699'],
+			process: function (bits){
+				return [
+					parseInt(bits[1], 16),
+					parseInt(bits[2], 16),
+					parseInt(bits[3], 16)
+				];
+			}
+		},
+		{
+			re: /^(\w{1})(\w{1})(\w{1})$/,
+			example: ['#fb0', 'f0f'],
+			process: function (bits){
+				return [
+					parseInt(bits[1] + bits[1], 16),
+					parseInt(bits[2] + bits[2], 16),
+					parseInt(bits[3] + bits[3], 16)
+				];
+			}
+		}
+	];
+
+
+
+	// search through the definitions to find a match
+	for (var i = 0; i &lt; color_defs.length; i++) {
+		var re = color_defs[i].re;
+		var processor = color_defs[i].process;
+		var bits = re.exec(color_string);
+		if (bits) {
+			channels = processor(bits);
+			this.r = channels[0];
+			this.g = channels[1];
+			this.b = channels[2];
+			this.ok = true;
+		}
+	}
+
+
+	// validate &amp; cleanup values
+	this.r = (this.r &lt; 0 || isNaN(this.r)) ? 0 : ((this.r > 255) ? 255 : this.r);
+	this.g = (this.g &lt; 0 || isNaN(this.g)) ? 0 : ((this.g > 255) ? 255 : this.g);
+	this.b = (this.b &lt; 0 || isNaN(this.b)) ? 0 : ((this.b > 255) ? 255 : this.b);
+
+
+
+	// some getters
+
+	// returns rgb() value string
+	this.toRGB = function () {
+		return 'rgb(' + this.r + ',' + this.g + ',' + this.b + ')';
+	}
+
+	// returns rgb() value string
+	this.toRGB2 = 'rgb(' + this.r + ', ' + this.g + ', ' + this.b + ')';
+
+
+	// returns hex string
+	this.toHex = function () {
+		var r = this.r.toString(16);
+		var g = this.g.toString(16);
+		var b = this.b.toString(16);
+		if (r.length == 1) r = '0' + r;
+		if (g.length == 1) g = '0' + g;
+		if (b.length == 1) b = '0' + b;
+		return '#' + r + g + b;
+	}
+
+	// returns decimal array for R, G, and B
+	this.toDec = function () {
+		return [this.r/255.0,this.g/255.0,this.b/255.0];
+	}
+
+	// these return linearized R, G, or B
+
+	this.Rlin = function () {
+		return Math.pow(this.r/255.0, sRGBtrc);
+	}
+	this.Glin = function () {
+		return Math.pow(this.g/255.0, sRGBtrc);
+	}
+	this.Blin = function () {
+		return Math.pow(this.b/255.0, sRGBtrc);
+	}
+
+
+	this.toY = function () {
+		return 	Math.pow(this.r/255.0, sRGBtrc) * Rco + Math.pow(this.g/255.0, sRGBtrc) * Gco + Math.pow(this.b/255.0, sRGBtrc) * Bco;
+	}
+}
+
+//////////////////////////////////////////////////////////////
+///// END sRGB INPUT FORM BLOCK 	//////////////////////
+//////////////////////////////////////////////////////////////
+
+</code></pre>
+		</section>
+		<section>
+			<h2>HTML and Page Level Scripts</h2>
+			<pre xml:space="preserve"><code>
+
+&lt;?xml version="1.1" encoding="utf-8"?>
+&lt;!DOCTYPE html>
+&lt;head>
+&lt;title>SAPC Contrast Demo&lt;/title>
+
+&lt;script src="SAPCsRGB.js">
+// Place the above blocks in file SAPCsRGB.js
+&lt;/script>
+
+&lt;script>
+		function getBGColor(s) {
+			var BGcolor = new RGBColor(s);
+			if (BGcolor.ok) {
+			
+				document.getElementById('BGresult').style.backgroundColor
+					= 'rgb(' + BGcolor.r + ', ' + BGcolor.g + ', ' + BGcolor.b + ')';
+				document.getElementById('sansSamples').style.backgroundColor
+					= 'rgb(' + BGcolor.r + ', ' + BGcolor.g + ', ' + BGcolor.b + ')';
+				document.getElementById('serifSamples').style.backgroundColor
+					= 'rgb(' + BGcolor.r + ', ' + BGcolor.g + ', ' + BGcolor.b + ')';
+					
+				document.getElementById('BGresult-text').innerHTML =
+					'&lt;code>&lt;b>HEX:&lt;/b> ' + BGcolor.toHex()
+					  + ' &lt;b>sRGB:&lt;/b> ' + BGcolor.toRGB()
+					  + '&lt;br>&lt;b>Decimal:&lt;/b> rgb( ' + BGcolor.toDec()[0].toPrecision(2)
+					  + ', ' + BGcolor.toDec()[1].toPrecision(2)
+					  + ', ' + BGcolor.toDec()[2].toPrecision(2)
+					  + ' )&lt;br>&lt;b>Lin:&lt;/b> R ' + BGcolor.Rlin().toPrecision(3)
+					  + '  G ' + BGcolor.Glin().toPrecision(3)
+					  + '  B ' + BGcolor.Blin().toPrecision(3)
+					  + '&lt;br>&lt;b>Luminance:&lt;/b> Y ' + BGcolor.toY().toPrecision(3) + '&lt;/code>'
+					  ;
+			} else {
+				document.getElementById('BGresult-text').innerHTML = 'Invalid Color';
+				document.getElementById('BGresult').style.backgroundColor
+					= 'rgb(255, 255, 255)';
+			}
+		}
+
+		function getTextColor(s) {
+			var textColor = new RGBColor(s);
+			if (textColor.ok) {
+			
+				document.getElementById('textResult').style.backgroundColor
+					= 'rgb(' + textColor.r + ', ' + textColor.g + ', ' + textColor.b + ')';
+				document.getElementById('sansSamples').style.color
+					= 'rgb(' + textColor.r + ', ' + textColor.g + ', ' + textColor.b + ')';
+				document.getElementById('serifSamples').style.color
+					= 'rgb(' + textColor.r + ', ' + textColor.g + ', ' + textColor.b + ')';	
+					
+				document.getElementById('textResult-text').innerHTML =
+					'&lt;code>&lt;b>HEX:&lt;/b> ' + textColor.toHex()
+					  + ' &lt;b>sRGB:&lt;/b> ' + textColor.toRGB()
+					  + '&lt;br>&lt;b>Decimal:&lt;/b> rgb( ' + textColor.toDec()[0].toPrecision(2)
+					  + ', ' + textColor.toDec()[1].toPrecision(2)
+					  + ', ' + textColor.toDec()[2].toPrecision(2)
+					  + ' )&lt;br>&lt;b>Lin:&lt;/b> R ' + textColor.Rlin().toPrecision(3)
+					  + '  G ' + textColor.Glin().toPrecision(3)
+					  + '  B ' + textColor.Blin().toPrecision(3)
+					  + '&lt;br>&lt;b>Luminance:&lt;/b> Y ' + textColor.toY().toPrecision(3) + '&lt;/code>'
+					  ;
+			} else {
+				document.getElementById('textResult-text').innerHTML = 'Invalid Color';
+				document.getElementById('textResult').style.backgroundColor = 'rgb(255, 255, 255)';
+			}
+		}
+		
+	&lt;/script>
+&lt;/head>
+&lt;body onLoad="document.getElementById('inputBG').focus(); document.getElementById('inputText').focus(); document.getElementById('inputBG').focus(); testContrast(); ">
+
+	&lt;div id="demoArea"> 
+	
+		&lt;div id="contrast">        
+			&lt;div id="contrastLabel">SAPC Contrast&lt;/div>
+			&lt;div id="contrastResult">NaN&lt;/div>
+        &lt;/div>
+       
+        &lt;h1 style="text-align: left; ">SAPC Visual Contrast Demo&lt;/h1>
+
+        &lt;div class="">
+			This is the Basic SAPC contrast method using JavaScript. 
+			&lt;br>Just type in color values as #hex, rgb(), or HTML name 
+			&lt;br>then navigate away from the input field by either
+			&lt;br>pressing TAB or clicking elsewhere on the page.
+        &lt;/div>
+    &lt;/div>           
+
+
+	&lt;div id="inputArea">        
+		&lt;div style="position: relative; float: left;">
+			&lt;h3>ENTER BACKGROUND COLOR
+			&lt;/h3>
+			&lt;form id="colorForm" name="colorForm" onsubmit="getBGColor(this.elements[0].value); getTextColor(this.elements[1].value); return false;">
+				&lt;div class="input">
+					&lt;input
+						id="inputBG"
+						type="text"
+						value="#BA9"
+						onblur="getBGColor(this.value); testContrast();">
+				&lt;/div>
+		
+			&lt;div id="BGresult-wrap">&lt;div id="BGresult">&lt;/div>&lt;/div>
+			&lt;div class="codeBlock" id="BGresult-text">&lt;/div>
+	   &lt;/div>
+	
+        
+		&lt;div style="position: relative; float: right;">
+			&lt;h3>ENTER TEXT COLOR
+			&lt;/h3>
+				&lt;div class="input">
+					&lt;input
+						id="inputText"
+						type="text"
+						value="#319"
+						onblur="getTextColor(this.value); testContrast();">
+				&lt;/div>
+			&lt;/form>
+			&lt;div id="textResult-wrap">&lt;div id="textResult">&lt;/div>&lt;/div>
+			&lt;code id="textResult-text">&lt;/code>
+	
+		&lt;/div>
+	&lt;/div>
+
+&lt;div style="font-size: 12px;">The page and code is Copyright © 2020 by Andrew Somers.
+&lt;br>Licensed to the W3.org per their cooperative agreement. 
+&lt;br>Otherwise under the MIT license. 
+&lt;br>Repository: &lt;a href="https://github.com/Myndex/SAPC/tree/master/JS">https://github.com/Myndex/SAPC/tree/master/JS&lt;/a>
+&lt;br>Color value input parsing based substantially on rgbcolor.js by
+&lt;br>Stoyan Stefanov &lt;sstoo@gmail.com> used per MIT license.
+&lt;br>
+This project is part of the &lt;a href="https://www.myndex.com/WEB/Perception">Myndex Web Perception Experiment.
+&lt;/a>
+&lt;br>&lt;br>
+    &lt;span onclick="testContrast()" style="cursor: pointer; text-decoration: underline">Manual Refresh&lt;/span>
+
+&lt;script>
+	function testContrast() {
+		var BG = new RGBColor(document.getElementById('inputBG').value);
+		var txt = new RGBColor(document.getElementById('inputText').value);
+		
+		document.getElementById('contrastResult').innerHTML =  SAPCbasic(BG.Rlin(),BG.Glin(),BG.Blin(),txt.Rlin(),txt.Glin(),txt.Blin());
+	}
+&lt;/script>		
+&lt;/body>
+&lt;/html>
+
+</code></pre>
+		</section>
+	</body>
+</html>
