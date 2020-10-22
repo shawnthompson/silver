@@ -213,7 +213,12 @@ function outputJson() {
 			});
 			result.guidelines.push(gl);
 		});
-		alert (JSON.stringify(result));
+		
+	    var a = document.createElement("a");
+	    var file = new Blob([JSON.stringify(result)], {type: "application/json"});
+	    a.href = URL.createObjectURL(file);
+	    a.download = "guidelines.json";
+	    a.click();
 	}
 }
 
