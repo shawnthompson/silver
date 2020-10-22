@@ -193,6 +193,30 @@ function removeImgSize() {
 	});
 }
 
+function outputJson() {
+	params = new URLSearchParams(window.location.search);
+	if (params.get("json") != null) {
+		var result = new Object();
+		result.guidelines = new Array();
+		document.querySelectorAll(".guideline").forEach(function(glnode) {
+			var gl = {
+				name: findFirstTextChild(findHeading(glnode)).textContent,
+				guideline: findFirstTextChild(glnode.querySelector("p")).textContent
+			};
+			gl.outcomes = new Array();
+			glnode.querySelectorAll(".outcome").forEach(function(ocnode) {
+				var oc = {
+					name: findFirstTextChild(findHeading(ocnode)).textContent,
+					outcome: findFirstTextChild(ocnode.querySelector("p")).textContent
+				}
+				gl.outcomes.push(oc);
+			});
+			result.guidelines.push(gl);
+		});
+		alert (JSON.stringify(result));
+	}
+}
+
 // scripts before Respec has run
 function preRespec() {
 	adjustDfnData();
@@ -214,4 +238,5 @@ function postRespec() {
 	removeDraftMethodLinks();
 	edNotePermalinks();
 	removeImgSize();
+	outputJson();
 }
