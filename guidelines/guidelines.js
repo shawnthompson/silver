@@ -26,6 +26,14 @@ function textNoDescendant(el) {
 	return textContent;
 }
 
+function sentenceCase(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function pathToName(path) {
+	return sentenceCase(path.replace(/-/g, " "));
+}
+
 function linkHowTo() {
 	var howtoBaseURI = "https://www.w3.org/WAI/GL/WCAG3/2020/how-tos/";
 	//if (respecConfig.specStatus == "ED") understandingBaseURI = "../../understanding/";
@@ -200,17 +208,18 @@ function outputJson() {
 		result.guidelines = new Array();
 		document.querySelectorAll(".guideline").forEach(function(glnode) {
 			var gl = {
+				id: titleToPathFrag(findFirstTextChild(findHeading(glnode)).textContent),
 				name: findFirstTextChild(findHeading(glnode)).textContent,
 				guideline: findFirstTextChild(glnode.querySelector("p")).textContent
 			};
 			gl.outcomes = new Array();
 			glnode.querySelectorAll(".outcome").forEach(function(ocnode) {
-				var path = titleToPathFrag(findFirstTextChild(findHeading(ocnode)).textContent);
+				var ocid = titleToPathFrag(findFirstTextChild(findHeading(ocnode)).textContent);
 				var oc = {
+					id: ocid,
 					name: findFirstTextChild(findHeading(ocnode)).textContent,
 					outcome: findFirstTextChild(ocnode.querySelector("p")).textContent,
-					path: path,
-					methods: loadMethods(path)
+					methods: loadMethods(ocid)
 				}
 				gl.outcomes.push(oc);
 			});
@@ -233,9 +242,11 @@ function outputJson() {
 				methodList = new Array();
 				xml = xhttp.responseXML;
 				xml.querySelectorAll(".method-link").forEach(function(node) {
+					var methodid = node.href.match(/\/([a-z-]*)\/$/)[1]; 
 					var method = {
-						path: node.href.match(/\/([a-z-]*)\/$/)[1],
-						name: node.textContent
+						id: methodid,
+						name: pathToName(methodid),
+						method: node.textContent
 					}
 					methodList.push(method);
 				});
